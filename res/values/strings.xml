@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- app setting -->
+    <string name="app_name">TuoyouVPN</string>
+    <string name="app_name01">wgcwgc</string>
+    <string name="app_name02">Android_Wgcwgc_Login</string>
+
+    <!-- menu setting -->
+    <string name="menu_hello">Hello world!</string>
+    <string name="menu_action_settings">设置</string>
+    <string name="menu_about">关于</string>
+
+    <!-- main setting -->
+    <string name="main_Button01">账号</string>
+    <string name="main_account">账号</string>
+    <string name="main_account_hint">手机号/用户名/邮箱</string>
+    <string name="main_password">密码</string>
+    <string name="main_password_hint">密码</string>
+    <string name="main_login">登录</string>
+    <string name="main_register">注册</string>
+    <string name="main_forget_password">忘记密码？</string>
+    <string name="main_Retrieve_account">找回账号！</string>
+
+    <!-- login setting -->
+    <string name="login_TextView01_text">昵称：</string>
+    <string name="login_editText01_hint">用户名</string>
+    <string name="login_Button01">博客</string>
+    <string name="login_Button02">拨号</string>
+    <string name="login_Button03">短信</string>
+    <string name="login_Button04">音乐</string>
+    <string name="login_Button05">卸载</string>
+    
+
+    <!-- register setting -->
+    <string name="register_username_hint">手机号/用户名/邮箱</string>
+    <string name="register_password_hint">7到17位包含字母或数字的密码，字母区分大小写</string>
+    <string name="register_address_hint">地址</string>
+    <string name="register_type_hint">类型</string>
+    <string name="register_notes_hint">备注</string>
+    <string name="register_phoneNumber_hint">手机号</string>
+    <string name="register_okButton">确定</string>
+    <string name="register_cancelButton">取消</string>
+    
+</resources>
