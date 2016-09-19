@@ -8,7 +8,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -24,8 +24,9 @@ import android.widget.Toast;
 import com.runcom.tuoyouvpn.R;
 import com.runcom.tuoyouvpn.business.Business;
 import com.runcom.tuoyouvpn.md5.MD5;
+import com.runcom.tuoyouvpn.register.Register;
+import com.runcom.tuoyouvpn.web.SSLSocketFactoryEx;
 
-@SuppressWarnings("deprecation")
 public class MainActivity extends Activity
 {
 
@@ -123,46 +124,82 @@ public class MainActivity extends Activity
 			this.password = password;
 		}
 
+		@SuppressLint("DefaultLocale")
 		@Override
 		public void run()
 		{
 			// 用HttpClient发送请求，分为五步
-			// 第一步：创建HttpClient对象
-			@SuppressWarnings("resource")
-			HttpClient httpClient = new DefaultHttpClient();
+			// HttpClient httpClient = new DefaultHttpClient();
+			HttpClient httpClient = SSLSocketFactoryEx.getNewHttpClient();// getNewHttpClient
+
 			// https://a.redvpn.cn:8443/interface/
 			String signValu = "tuoyouvpn" + account + password;
-			signValu = new MD5().md5(signValu);
-			String url = "https://a.redvpn.cn:8443/interface/dologin.php?login=" + account + "&pass=" + password + "&sign" + signValu;
+			signValu = new MD5().md5(signValu).toUpperCase();
+			String url = "https://a.redvpn.cn:8443/interface/dologin.php?login=" + account + "&pass=" + password + "&sign=" + signValu;
 			// 第二步：创建代表请求的对象,参数是访问的服务器地址
-			System.out.println(url);
-			
+			// System.out.println(url);
+			Log.d("LOG" ,url);
+			// System.out.println(new
+			// MD5().md5("runcom8888123@abc.comxyz9.3.26666").toUpperCase());
 			HttpGet httpGet = new HttpGet(url);
 			try
 			{
 				// 第三步：执行请求，获取服务器发还的相应对象
 				HttpResponse response = httpClient.execute(httpGet);
+				// System.out.println("test00");
 				// 第四步：检查相应的状态是否正常：检查状态码的值是200表示正常
 				if(response.getStatusLine().getStatusCode() == 200)
 				{
 					// 第五步：从相应对象当中取出数据，放到entity当中
+					// System.out.println("test01");
 					HttpEntity entity = response.getEntity();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
-					String result = reader.readLine();
-					Log.d("LOG" ,"GET:" + result);
-					System.out.println(result);
-					Toast.makeText(MainActivity.this ,result ,Toast.LENGTH_LONG).show();
+					String json_result = reader.readLine();
+					JSONObject jsonObject = new JSONObject(json_result);
+
+					// String result = jsonObject.getString("result");
+					int result = jsonObject.getInt("result");
+					String mesg = jsonObject.getString("mesg");
+					String uid = jsonObject.getString("uid");
+					String expire = jsonObject.getString("expire");
+					String freetime = jsonObject.getString("freetime");
+					String flow = jsonObject.getString("flow");
+					String score = jsonObject.getString("score");
+					String coupon = jsonObject.getString("coupon");
+					String type = jsonObject.getString("type");
+					String email = jsonObject.getString("email");
+					String session = jsonObject.getString("session");
+
+					Log.d("LOG" ,json_result);
+					// System.out.println(result);
+					// Toast.makeText(MainActivity.this ,result
+					// ,Toast.LENGTH_LONG).show();
 					Intent intent = new Intent();
 					intent.setClass(MainActivity.this ,Business.class);
-					intent.putExtra("account" ,account);
+					intent.putExtra("login" ,account);
+					intent.putExtra("pass" ,password);
+
+					intent.putExtra("result" ,result);
+					intent.putExtra("mesg" ,mesg);
+					intent.putExtra("uid" ,uid);
+					intent.putExtra("expire" ,expire);
+					intent.putExtra("freetime" ,freetime);
+					intent.putExtra("flow" ,flow);
+					intent.putExtra("score" ,score);
+					intent.putExtra("coupon" ,coupon);
+					intent.putExtra("type" ,type);
+					intent.putExtra("email" ,email);
+					intent.putExtra("session" ,session);
+
 					startActivity(intent);
-					// finish();
+					finish();
+					// System.out.println("test02");
 
 				}
 			}
 			catch(Exception e)
 			{
-				e.printStackTrace();
+				System.out.println("http_bug");
 			}
 
 		}
@@ -209,10 +246,14 @@ public class MainActivity extends Activity
 	/**
 	 * 
 	 * @param view
+	 *            button && activit_main's call and user achieves register
 	 */
 	public void register(View view )
 	{
 		Toast.makeText(this ,"register" ,Toast.LENGTH_LONG).show();
+		Intent intent = new Intent();
+		intent.setClass(MainActivity.this ,Register.class);
+		startActivity(intent);
 	}
 
 	@Override

@@ -26,6 +26,8 @@
         </activity>
         <activity android:name="com.runcom.tuoyouvpn.business.Business" >
         </activity>
+        <activity android:name="com.runcom.tuoyouvpn.register.Register" >
+        </activity>
     </application>
 
 </manifest>
