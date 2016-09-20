@@ -1,4 +1,4 @@
-package com.runcom.tuoyouvpn.register;
+package com.runcom.wgcwgc.register;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.runcom.tuoyouvpn.R;
-import com.runcom.tuoyouvpn.main.MainActivity;
+import com.runcom.wgcwgc.R;
+import com.runcom.wgcwgc.main.MainActivity;
 
 public class Register extends Activity
 {
@@ -28,20 +28,20 @@ public class Register extends Activity
 
 	}
 
-	public void okButtonClick(View view )
+	public void submitButtonClick(View view )
 	{
 		editText_login = (EditText) findViewById(R.id.register_login);
 		editText_password = (EditText) findViewById(R.id.register_password);
 		editText_password_resure = (EditText) findViewById(R.id.register_password_resure);
-		editText_number = (EditText) findViewById(R.id.register_number);
 		editText_email = (EditText) findViewById(R.id.register_email);
+		editText_number = (EditText) findViewById(R.id.register_number);
 		editText_chkcode = (EditText) findViewById(R.id.register_chkcode);
 
 		login = editText_login.getText().toString();
 		password = editText_password.getText().toString();
 		password_resure = editText_password_resure.getText().toString();
-		number = editText_number.getText().toString();
 		email = editText_email.getText().toString();
+		number = editText_number.getText().toString();
 		chkcode = editText_chkcode.getText().toString();
 
 		String contents = "«Î◊–œ∏∫À∂‘–≈œ¢\n’À∫≈£∫\n\t\t\t\t" + login + "\n√‹¬Î£∫\n\t\t\t\t" + password + "\n ÷ª˙∫≈¬Î£∫\n\t\t\t\t" + number + "\n” œ‰£∫\n\t\t\t\t" + email + "\n—È÷§¬Î£∫\n\t\t\t\t" + chkcode + "\n\t\t\t\t";
@@ -57,7 +57,7 @@ public class Register extends Activity
 
 	}
 
-	public void cancelButtonClick(View view )
+	public void chkcodeButtonClick(View view )
 	{
 		Intent intent = new Intent();
 		intent.setClass(Register.this ,MainActivity.class);

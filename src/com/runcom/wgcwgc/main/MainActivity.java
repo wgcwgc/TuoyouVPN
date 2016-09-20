@@ -1,4 +1,4 @@
-package com.runcom.tuoyouvpn.main;
+package com.runcom.wgcwgc.main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,11 +22,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.runcom.tuoyouvpn.R;
-import com.runcom.tuoyouvpn.business.Business;
-import com.runcom.tuoyouvpn.md5.MD5;
-import com.runcom.tuoyouvpn.register.Register;
-import com.runcom.tuoyouvpn.web.SSLSocketFactoryEx;
+import com.runcom.wgcwgc.R;
+import com.runcom.wgcwgc.business.Business;
+import com.runcom.wgcwgc.configure.Configure;
+import com.runcom.wgcwgc.configure.GetConfigure;
+import com.runcom.wgcwgc.md5.MD5;
+import com.runcom.wgcwgc.register.Register;
+import com.runcom.wgcwgc.web.SSLSocketFactoryEx;
 
 public class MainActivity extends Activity
 {
@@ -43,6 +46,26 @@ public class MainActivity extends Activity
 
 		editText_account = (EditText) findViewById(R.id.main_editText_account);
 		editText_password = (EditText) findViewById(R.id.main_editText_password);
+
+		String packageName = this.getPackageName();
+
+		Log.d("LOG" ,"包名：" + packageName);
+		try
+		{
+			String versionName = this.getPackageManager().getPackageInfo(packageName ,0).versionName;
+			int versionCode = this.getPackageManager().getPackageInfo(packageName ,0).versionCode;
+			Log.d("LOG" ,"版本名：" + versionName);
+			Log.d("LOG" ,"版本号：" + versionCode);
+		}
+		catch(NameNotFoundException e)
+		{
+			Log.d("LOG" ,"set version code bug");
+		}
+		Configure configure = new Configure();
+		configure.setApp("");
+		configure.setVer("");
+		configure.setBuild("57");
+		new GetConfigure(this).setConfigure();
 
 	}
 
@@ -69,7 +92,7 @@ public class MainActivity extends Activity
 		}
 		else
 		{
-			Toast.makeText(this ,"username or password is wrong." ,Toast.LENGTH_LONG).show();
+			Toast.makeText(this ,"Username or password is wrong.\nPlease try again!" ,Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -133,10 +156,13 @@ public class MainActivity extends Activity
 			HttpClient httpClient = SSLSocketFactoryEx.getNewHttpClient();// getNewHttpClient
 
 			// https://a.redvpn.cn:8443/interface/
+			// *************************************************************************************************************************************
+
 			String signValu = "tuoyouvpn" + account + password;
 			signValu = new MD5().md5(signValu).toUpperCase();
 			String url = "https://a.redvpn.cn:8443/interface/dologin.php?login=" + account + "&pass=" + password + "&sign=" + signValu;
 			// 第二步：创建代表请求的对象,参数是访问的服务器地址
+			// url = toURLEncoded(url);
 			// System.out.println(url);
 			Log.d("LOG" ,url);
 			// System.out.println(new
@@ -158,7 +184,7 @@ public class MainActivity extends Activity
 					JSONObject jsonObject = new JSONObject(json_result);
 
 					// String result = jsonObject.getString("result");
-					int result = jsonObject.getInt("result");
+					Long result = jsonObject.getLong("result");
 					String mesg = jsonObject.getString("mesg");
 					String uid = jsonObject.getString("uid");
 					String expire = jsonObject.getString("expire");
@@ -171,7 +197,9 @@ public class MainActivity extends Activity
 					String session = jsonObject.getString("session");
 
 					Log.d("LOG" ,json_result);
-					// System.out.println(result);
+					Log.d("LOG" ,result.toString());
+
+					System.out.println(result);
 					// Toast.makeText(MainActivity.this ,result
 					// ,Toast.LENGTH_LONG).show();
 					Intent intent = new Intent();
@@ -250,7 +278,7 @@ public class MainActivity extends Activity
 	 */
 	public void register(View view )
 	{
-		Toast.makeText(this ,"register" ,Toast.LENGTH_LONG).show();
+		// Toast.makeText(this ,"register" ,Toast.LENGTH_LONG).show();
 		Intent intent = new Intent();
 		intent.setClass(MainActivity.this ,Register.class);
 		startActivity(intent);

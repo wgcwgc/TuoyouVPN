@@ -1,11 +1,11 @@
-package com.runcom.tuoyouvpn.business;
+package com.runcom.wgcwgc.business;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.runcom.tuoyouvpn.R;
+import com.runcom.wgcwgc.R;
 
 public class Business extends Activity
 {
@@ -26,8 +26,9 @@ public class Business extends Activity
 		contents = "login:\t" + intent.getStringExtra("login") + "\n";
 		contents += "pass:\t" + intent.getStringExtra("pass") + "\n";
 
-		// contents += "reslut:\t" + intent.getStringExtra("reslut") + "\n";
-		contents += "reslut:\t" + intent.getIntExtra("reslut" ,-1) + "\n";
+		contents += "reslut:\t" + intent.getLongExtra("result" , -1) + "\n";
+		// System.out.println(intent.getLongExtra("result" ,-1));
+		// contents += "reslut:\t" + intent.getIntExtra("result" , -1) + "\n";
 		contents += "mesg:\t" + intent.getStringExtra("mesg") + "\n";
 		contents += "uid:\t" + intent.getStringExtra("uid") + "\n";
 		contents += "expire:\t" + intent.getStringExtra("expire") + "\n";
@@ -38,7 +39,7 @@ public class Business extends Activity
 		contents += "type:\t" + intent.getStringExtra("type") + "\n";
 		contents += "email:\t" + intent.getStringExtra("email") + "\n";
 		contents += "session:\t" + intent.getStringExtra("session") + "\n";
-		
+
 		textView = (TextView) findViewById(R.id.textView1);
 		textView.setText(contents);
 

@@ -1,4 +1,4 @@
-package com.runcom.tuoyouvpn.md5;
+package com.runcom.wgcwgc.md5;
 
 import java.security.MessageDigest;
 

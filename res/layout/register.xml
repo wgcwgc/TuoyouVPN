@@ -12,8 +12,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="17dp"
         android:hint="@string/register_login_hint"
+        android:inputType="textAutoComplete"
         android:selectAllOnFocus="true"
         android:textSize="12sp"
         android:textStyle="normal" />
@@ -27,7 +28,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/register_login"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="17dp"
         android:ems="10"
         android:hint="@string/register_pass_hint"
         android:inputType="textPassword"
@@ -42,25 +43,10 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/register_password"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="17dp"
         android:ems="10"
         android:hint="@string/register_pass_resure_hint"
         android:inputType="textPassword"
-        android:textSize="12sp" />
-
-    <EditText
-        android:id="@+id/register_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/register_email"
-        android:layout_marginTop="26dp"
-        android:ems="10"
-        android:inputType="number"
-        android:hint="@string/register_number_hint"
         android:textSize="12sp" />
 
     <EditText
@@ -72,51 +58,65 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/register_password_resure"
-        android:layout_marginTop="20dp"
-        android:ems="10"
+        android:layout_marginTop="17dp"
         android:hint="@string/register_emailaddress_hint"
         android:inputType="textWebEmailAddress"
         android:textSize="12sp" />
 
     <EditText
-        android:id="@+id/register_chkcode"
+        android:id="@+id/register_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/register_email"
+        android:layout_marginTop="17dp"
+        android:hint="@string/register_number_hint"
+        android:inputType="number"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/register_chkcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/register_number"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="17dp"
         android:ems="10"
         android:hint="@string/register_chkcode_hint"
         android:inputType="text"
         android:textSize="12sp" />
 
     <Button
-        android:id="@+id/register_cancelButton"
+        android:id="@+id/register_chkcodeButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/register_okButton"
-        android:layout_alignBottom="@+id/register_okButton"
-        android:layout_toEndOf="@+id/register_okButton"
-        android:layout_toRightOf="@+id/register_okButton"
-        android:onClick="cancelButtonClick"
+        android:layout_alignTop="@+id/register_number"
+        android:layout_marginTop="33dp"
+        android:layout_toEndOf="@+id/register_chkcode"
+        android:layout_toRightOf="@+id/register_chkcode"
+        android:onClick="chkcodeButtonClick"
         android:text="@string/register_cancelButton"
         android:textSize="12sp" />
 
     <Button
-        android:id="@+id/register_okButton"
+        android:id="@+id/register_submitButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/register_chkcodeButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/register_chkcodeButton"
         android:layout_below="@+id/register_chkcode"
         android:layout_marginLeft="104dp"
         android:layout_marginStart="104dp"
-        android:onClick="okButtonClick"
+        android:layout_marginTop="17dp"
+        android:onClick="submitButtonClick"
         android:text="@string/register_okButton"
         android:textSize="12sp" />
 

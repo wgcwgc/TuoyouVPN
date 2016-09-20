@@ -1,4 +1,4 @@
-package com.runcom.tuoyouvpn.web;
+package com.runcom.wgcwgc.web;
 
 import java.io.IOException;
 import java.net.Socket;
