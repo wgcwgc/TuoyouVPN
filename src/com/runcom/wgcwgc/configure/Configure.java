@@ -2,22 +2,22 @@ package com.runcom.wgcwgc.configure;
 
 public class Configure
 {
-	private int term;
-	private String os;
-	private String dev;
-	private String app;
-	private String ver;
-	private String build;
-	private int isbreak;
-	private String lang;
-	private int market;
+	public int term;
+	public String os;
+	public String dev;
+	public String app;
+	public String ver;
+	public String build;
+	public int isbreak;
+	public String lang;
+	public int market;
 
 	public Configure()
 	{
 
 	}
 
-	public Configure(int term , int market , int isbreak , String os , String dev , String app , String ver , String build)
+	public Configure(int term , int market , int isbreak , String os , String dev , String app , String ver , String build , String lang)
 	{
 		this.term = term;
 		this.os = os;
@@ -26,6 +26,7 @@ public class Configure
 		this.dev = dev;
 		this.app = app;
 		this.ver = ver;
+		this.lang = lang;
 		this.build = build;
 	}
 
@@ -67,6 +68,7 @@ public class Configure
 	public void setApp(String app )
 	{
 		this.app = app;
+		// Log.d("LOG" ,"set ÷¥––¡À" + app);
 	}
 
 	public String getVer()
@@ -89,7 +91,7 @@ public class Configure
 		this.build = build;
 	}
 
-	public int isIsbreak()
+	public int getIsbreak()
 	{
 		return isbreak;
 	}

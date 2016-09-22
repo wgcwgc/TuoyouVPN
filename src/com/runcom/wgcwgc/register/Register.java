@@ -35,7 +35,7 @@ public class Register extends Activity
 		editText_password_resure = (EditText) findViewById(R.id.register_password_resure);
 		editText_email = (EditText) findViewById(R.id.register_email);
 		editText_number = (EditText) findViewById(R.id.register_number);
-		editText_chkcode = (EditText) findViewById(R.id.register_chkcode);
+		editText_chkcode = (EditText) findViewById(R.id.register_01_chkcode);
 
 		login = editText_login.getText().toString();
 		password = editText_password.getText().toString();

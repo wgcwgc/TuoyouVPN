@@ -3,6 +3,7 @@ package com.runcom.wgcwgc.main;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
+import java.util.Locale;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,7 +14,10 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,16 +31,28 @@ import com.runcom.wgcwgc.business.Business;
 import com.runcom.wgcwgc.configure.Configure;
 import com.runcom.wgcwgc.configure.GetConfigure;
 import com.runcom.wgcwgc.md5.MD5;
-import com.runcom.wgcwgc.register.Register;
+import com.runcom.wgcwgc.register.Register_01;
 import com.runcom.wgcwgc.web.SSLSocketFactoryEx;
 
 public class MainActivity extends Activity
 {
+	public Configure getConfigure_set;
 
-	private EditText editText_account , editText_password;
+	EditText editText_account , editText_password;
 
-	private String account = null;
-	private String password = null;
+	String account = null;
+	String password = null;
+
+	String app;
+	String ver;
+	String build;
+
+	int term = 0;
+	String os = Build.VERSION.RELEASE;
+	String dev;
+	// private int isbreak;
+	String lang = Locale.getDefault().getLanguage();
+	int market = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState )
@@ -47,26 +63,47 @@ public class MainActivity extends Activity
 		editText_account = (EditText) findViewById(R.id.main_editText_account);
 		editText_password = (EditText) findViewById(R.id.main_editText_password);
 
-		String packageName = this.getPackageName();
+		// String packageName = this.getPackageName();
 
-		Log.d("LOG" ,"包名：" + packageName);
+		// Log.d("LOG" ,"包名：" + packageName);
+		getConfigure_set = new Configure();
 		try
 		{
-			String versionName = this.getPackageManager().getPackageInfo(packageName ,0).versionName;
-			int versionCode = this.getPackageManager().getPackageInfo(packageName ,0).versionCode;
-			Log.d("LOG" ,"版本名：" + versionName);
-			Log.d("LOG" ,"版本号：" + versionCode);
+			PackageManager packageManager = this.getPackageManager();
+			PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName() ,0);
+			int labelRes = packageInfo.applicationInfo.labelRes;
+
+			// Log.d("LOG" ,"start************************");
+			String versionName = packageInfo.versionName;
+			// int versionCode = packageInfo.versionCode;
+			// Log.d("LOG" ,"版本名：" + versionName);
+			// Log.d("LOG" ,"版本号：" + versionCode);
+			// getConfigure_set.setApp(getResources().getString(R.string.app_name));
+			getConfigure_set.setApp(this.getResources().getString(labelRes));
+			getConfigure_set.setVer(versionName);
+			getConfigure_set.setBuild("57");
 		}
 		catch(NameNotFoundException e)
 		{
 			Log.d("LOG" ,"set version code bug");
 		}
-		Configure configure = new Configure();
-		configure.setApp("");
-		configure.setVer("");
-		configure.setBuild("57");
-		new GetConfigure(this).setConfigure();
+		new GetConfigure(this).start();
 
+		// getConfigure = new Configure();
+		// int term = getConfigure_set.getTerm();
+		// String os = getConfigure_set.getOs();
+		// String dev = getConfigure_set.getDev();
+		app = getConfigure_set.getApp();
+		ver = getConfigure_set.getVer();
+		build = getConfigure_set.getBuild();
+
+		// int isbreak = getConfigure_set.getIsbreak();
+		// String lang = getConfigure_set.getLang();
+		// int market = getConfigure_set.getMarket();
+
+		// Log.d("LOG" ,"term:" + term + "\nos:" + os + "\ndev:" + dev +
+		// "\napp:" + app + "\nver:" + ver + "\nbuild:" + build + "\nisbreak:" +
+		// isbreak + "\nlang:" + lang + "\nmarket:" + market);
 	}
 
 	/**
@@ -158,9 +195,14 @@ public class MainActivity extends Activity
 			// https://a.redvpn.cn:8443/interface/
 			// *************************************************************************************************************************************
 
-			String signValu = "tuoyouvpn" + account + password;
+			// term = 0;
+			// os = Build.VERSION.RELEASE;
+			dev = android.provider.Settings.Secure.getString(MainActivity.this.getContentResolver() ,android.provider.Settings.Secure.ANDROID_ID);
+
+			String signValu = "tuoyouvpn" + app + build + dev + lang + account + market + os + password + term + ver;
 			signValu = new MD5().md5(signValu).toUpperCase();
-			String url = "https://a.redvpn.cn:8443/interface/dologin.php?login=" + account + "&pass=" + password + "&sign=" + signValu;
+			// Log.d("LOG" ,signValu);
+			String url = "https://a.redvpn.cn:8443/interface/dologin.php?login=" + account + "&pass=" + password + "&app=" + app + "&build=" + build + "&dev=" + dev + "&lang=" + lang + "&market=" + market + "&os=" + os + "&term=" + term + "&ver=" + ver + "&sign=" + signValu;
 			// 第二步：创建代表请求的对象,参数是访问的服务器地址
 			// url = toURLEncoded(url);
 			// System.out.println(url);
@@ -197,9 +239,9 @@ public class MainActivity extends Activity
 					String session = jsonObject.getString("session");
 
 					Log.d("LOG" ,json_result);
-					Log.d("LOG" ,result.toString());
+					// Log.d("LOG" ,result.toString());
 
-					System.out.println(result);
+					// System.out.println(result);
 					// Toast.makeText(MainActivity.this ,result
 					// ,Toast.LENGTH_LONG).show();
 					Intent intent = new Intent();
@@ -280,7 +322,7 @@ public class MainActivity extends Activity
 	{
 		// Toast.makeText(this ,"register" ,Toast.LENGTH_LONG).show();
 		Intent intent = new Intent();
-		intent.setClass(MainActivity.this ,Register.class);
+		intent.setClass(MainActivity.this ,Register_01.class);
 		startActivity(intent);
 	}
 
