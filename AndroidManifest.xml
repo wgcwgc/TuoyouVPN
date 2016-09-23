@@ -31,6 +31,8 @@
         </activity>
         <activity android:name="com.runcom.wgcwgc.register.Register_01" >
         </activity>
+        <activity android:name="com.runcom.wgcwgc.register.Register_02" >
+        </activity>
     </application>
 
 </manifest>

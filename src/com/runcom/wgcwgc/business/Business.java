@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.runcom.wgcwgc.R;
 
@@ -21,6 +22,8 @@ public class Business extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business);
 
+		Toast.makeText(this ,"µÇÂ¼³É¹¦£¡£¡£¡" , Toast.LENGTH_LONG).show();
+		
 		intent = getIntent();
 
 		contents = "login:\t" + intent.getStringExtra("login") + "\n";

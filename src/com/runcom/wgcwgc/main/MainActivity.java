@@ -31,7 +31,7 @@ import com.runcom.wgcwgc.business.Business;
 import com.runcom.wgcwgc.configure.Configure;
 import com.runcom.wgcwgc.configure.GetConfigure;
 import com.runcom.wgcwgc.md5.MD5;
-import com.runcom.wgcwgc.register.Register_01;
+import com.runcom.wgcwgc.register.Register;
 import com.runcom.wgcwgc.web.SSLSocketFactoryEx;
 
 public class MainActivity extends Activity
@@ -40,8 +40,8 @@ public class MainActivity extends Activity
 
 	EditText editText_account , editText_password;
 
-	String account = null;
-	String password = null;
+	String account;
+	String password;
 
 	String app;
 	String ver;
@@ -85,7 +85,7 @@ public class MainActivity extends Activity
 		}
 		catch(NameNotFoundException e)
 		{
-			Log.d("LOG" ,"set version code bug");
+			Log.d("LOG" ,"MainActivity_set version code bug");
 		}
 		new GetConfigure(this).start();
 
@@ -113,14 +113,13 @@ public class MainActivity extends Activity
 	 */
 	public void login(View view )
 	{
-		editText_account.setText("runcomtest");
-		editText_password.setText("123456");
+		// editText_account.setText("runcomtest");
+		// editText_password.setText("123456");
 		account = editText_account.getText().toString();
 		password = editText_password.getText().toString();
 
-		String contents = "account: " + account + "\npassword: " + password;
-		Log.d("LOG" ,contents);
-		Toast.makeText(this ,contents ,Toast.LENGTH_LONG).show();
+		// String contents = "account: " + account + "\npassword: " + password;
+		// Log.d("LOG" ,contents);
 
 		if(localJudges(account ,password))
 		{
@@ -135,7 +134,9 @@ public class MainActivity extends Activity
 
 	void serverJudges(String account , String password )
 	{
+		// Looper.prepare();
 		GetThread getThread = new GetThread(account , password);
+		// Looper.loop();
 		getThread.start();
 
 	}
@@ -153,7 +154,7 @@ public class MainActivity extends Activity
 		{
 			String str = new String(paramString.getBytes() , "UTF-8");
 			str = URLEncoder.encode(str ,"UTF-8");
-			Log.d("LOG" ,str);
+			Log.d("LOG" ,"toURLEncoded:" + str);
 			return str;
 		}
 		catch(Exception localException)
@@ -175,13 +176,13 @@ public class MainActivity extends Activity
 	class GetThread extends Thread
 	{
 
-		String account;
-		String password;
+		String login;
+		String pass;
 
 		public GetThread(String account , String password)
 		{
-			this.account = account;
-			this.password = password;
+			this.login = account;
+			this.pass = password;
 		}
 
 		@SuppressLint("DefaultLocale")
@@ -199,10 +200,10 @@ public class MainActivity extends Activity
 			// os = Build.VERSION.RELEASE;
 			dev = android.provider.Settings.Secure.getString(MainActivity.this.getContentResolver() ,android.provider.Settings.Secure.ANDROID_ID);
 
-			String signValu = "tuoyouvpn" + app + build + dev + lang + account + market + os + password + term + ver;
+			String signValu = "tuoyouvpn" + app + build + dev + lang + login + market + os + pass + term + ver;
 			signValu = new MD5().md5(signValu).toUpperCase();
 			// Log.d("LOG" ,signValu);
-			String url = "https://a.redvpn.cn:8443/interface/dologin.php?login=" + account + "&pass=" + password + "&app=" + app + "&build=" + build + "&dev=" + dev + "&lang=" + lang + "&market=" + market + "&os=" + os + "&term=" + term + "&ver=" + ver + "&sign=" + signValu;
+			String url = "https://a.redvpn.cn:8443/interface/dologin.php?login=" + login + "&pass=" + pass + "&app=" + app + "&build=" + build + "&dev=" + dev + "&lang=" + lang + "&market=" + market + "&os=" + os + "&term=" + term + "&ver=" + ver + "&sign=" + signValu;
 			// 第二步：创建代表请求的对象,参数是访问的服务器地址
 			// url = toURLEncoded(url);
 			// System.out.println(url);
@@ -218,6 +219,8 @@ public class MainActivity extends Activity
 				// 第四步：检查相应的状态是否正常：检查状态码的值是200表示正常
 				if(response.getStatusLine().getStatusCode() == 200)
 				{
+					// Toast.makeText(MainActivity.this ,"登录成功！！！"
+					// ,Toast.LENGTH_LONG).show();
 					// 第五步：从相应对象当中取出数据，放到entity当中
 					// System.out.println("test01");
 					HttpEntity entity = response.getEntity();
@@ -227,7 +230,7 @@ public class MainActivity extends Activity
 
 					// String result = jsonObject.getString("result");
 					Long result = jsonObject.getLong("result");
-					String mesg = jsonObject.getString("mesg");
+					final String mesg = jsonObject.getString("mesg");
 					String uid = jsonObject.getString("uid");
 					String expire = jsonObject.getString("expire");
 					String freetime = jsonObject.getString("freetime");
@@ -246,8 +249,8 @@ public class MainActivity extends Activity
 					// ,Toast.LENGTH_LONG).show();
 					Intent intent = new Intent();
 					intent.setClass(MainActivity.this ,Business.class);
-					intent.putExtra("login" ,account);
-					intent.putExtra("pass" ,password);
+					intent.putExtra("login" ,login);
+					intent.putExtra("pass" ,pass);
 
 					intent.putExtra("result" ,result);
 					intent.putExtra("mesg" ,mesg);
@@ -261,15 +264,44 @@ public class MainActivity extends Activity
 					intent.putExtra("email" ,email);
 					intent.putExtra("session" ,session);
 
-					startActivity(intent);
-					finish();
+					if(result == 0)
+					{
+						startActivity(intent);
+						finish();
+
+					}
+					else
+					{
+						new Thread()
+						{
+							public void run()
+							{
+								// 这儿是耗时操作，完成之后更新UI；
+								runOnUiThread(new Runnable()
+								{
+
+									@Override
+									public void run()
+									{
+										// 更新UI
+										// textView_hint.setText(mesg);
+										Toast.makeText(MainActivity.this ,mesg ,Toast.LENGTH_LONG).show();
+
+									}
+
+								});
+							}
+						}.start();
+					}
+
 					// System.out.println("test02");
 
 				}
 			}
 			catch(Exception e)
 			{
-				System.out.println("http_bug");
+				Log.d("LOG" ,"GetThread_http_bug");
+				e.printStackTrace();
 			}
 
 		}
@@ -322,7 +354,7 @@ public class MainActivity extends Activity
 	{
 		// Toast.makeText(this ,"register" ,Toast.LENGTH_LONG).show();
 		Intent intent = new Intent();
-		intent.setClass(MainActivity.this ,Register_01.class);
+		intent.setClass(MainActivity.this ,Register.class);
 		startActivity(intent);
 	}
 

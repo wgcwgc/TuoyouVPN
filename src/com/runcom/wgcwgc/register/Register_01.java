@@ -8,9 +8,11 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.runcom.wgcwgc.R;
 import com.runcom.wgcwgc.md5.MD5;
@@ -37,6 +40,7 @@ public class Register_01 extends Activity
 	private Button button_submit;
 
 	String app;
+	String email;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState )
@@ -44,9 +48,9 @@ public class Register_01 extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_01);
 
-		editText_chkcode = (EditText) findViewById(R.id.register_01_chkcode);
+		editText_chkcode = (EditText) findViewById(R.id.register_chkcode);
 		textView_hint = (TextView) findViewById(R.id.register_01_hint);
-		button_chkcode = (Button) findViewById(R.id.register_01_chkcodeButton);
+		button_chkcode = (Button) findViewById(R.id.register_chkcodeButton);
 		button_submit = (Button) findViewById(R.id.register_submitButton);
 
 		// button_chkcode.setEnabled(false);
@@ -54,15 +58,15 @@ public class Register_01 extends Activity
 		editText_chkcode.setEnabled(false);
 	}
 
-	public void chkcodeButtonClick(View view )
+	public void chkcodeButtonClick_01(View view )
 	{
 		editText_email = (EditText) findViewById(R.id.register_01_email);
-		String email = editText_email.getText().toString();
+		email = editText_email.getText().toString();
 		if(judge(email))
 		{
 			editText_chkcode.setEnabled(true);
 			// button_chkcode.setEnabled(false);
-			button_submit.setEnabled(true);
+//			button_submit.setEnabled(true);
 			serverJudge(email);
 		}
 		else
@@ -122,7 +126,7 @@ public class Register_01 extends Activity
 			HttpGet httpGet = new HttpGet(url);
 			try
 			{
-				Log.d("LOG" ,"test00");
+				// Log.d("LOG" ,"test00");
 
 				// 第三步：执行请求，获取服务器发还的相应对象
 				HttpResponse response = httpClient.execute(httpGet);
@@ -130,15 +134,15 @@ public class Register_01 extends Activity
 				if(response.getStatusLine().getStatusCode() == 200)
 				{
 					// 第五步：从相应对象当中取出数据，放到entity当中
-					Log.d("LOG" ,"test01");
+					// Log.d("LOG" ,"test01");
 					HttpEntity entity = response.getEntity();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent()));
 					String json_result = reader.readLine();
-					// JSONObject jsonObject = new JSONObject(json_result);
+					JSONObject jsonObject = new JSONObject(json_result);
 
 					// String result = jsonObject.getString("result");
-					// Long result = jsonObject.getLong("result");
-					// String mesg = jsonObject.getString("mesg");
+					Long result = jsonObject.getLong("result");
+					String mesg = jsonObject.getString("mesg");
 					// String uid = jsonObject.getString("uid");
 					// String expire = jsonObject.getString("expire");
 					// String freetime = jsonObject.getString("freetime");
@@ -148,16 +152,28 @@ public class Register_01 extends Activity
 					// String type = jsonObject.getString("type");
 					// String session = jsonObject.getString("session");
 					Log.d("LOG" ,json_result);
-					finish();
+					if(result == 0)
+					{
+						textView_hint.setText("我们已经向您的邮箱发送了一条验证码，请注意查收！！！");
+						Toast.makeText(Register_01.this ,mesg ,Toast.LENGTH_LONG).show();
+						button_submit.setEnabled(true);
+					}
+					else
+					{
+						textView_hint.setText(mesg);
+						Toast.makeText(Register_01.this ,mesg ,Toast.LENGTH_LONG).show();
+						button_submit.setEnabled(false);
+					}
+					// Log.d("LOG" ,"result:" + result + "\nmesg:" + mesg);
+					// finish();
 					// System.out.println("test02");
 				}
 			}
 			catch(Exception e)
 			{
-				// Log.d("LOG" ,"serverJudge_http exception:" + e.toString());
-				e.printStackTrace();
+//				Log.d("LOG" ,"serverJudge_http exception:" + e.toString());
+				 e.printStackTrace();
 			}
-			super.run();
 		}
 
 	}
@@ -168,8 +184,13 @@ public class Register_01 extends Activity
 		return true;
 	}
 
-	public void submitButtonClick(View view )
+	public void submitButtonClick_01(View view )
 	{
+		Intent intent = new Intent();
+		intent.setClass(Register_01.this ,Register_02.class);
+		intent.putExtra("email" ,email);
+		intent.putExtra("chkcode" ,editText_chkcode.getText().toString());
+		startActivity(intent);
 
 	}
 }
