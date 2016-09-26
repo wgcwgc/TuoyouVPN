@@ -33,6 +33,8 @@
         </activity>
         <activity android:name="com.runcom.wgcwgc.register.Register_02" >
         </activity>
+        <activity android:name="com.runcom.wgcwgc.business.Bind" >
+        </activity>
     </application>
 
 </manifest>

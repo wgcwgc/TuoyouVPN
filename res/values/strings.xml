@@ -10,6 +10,14 @@
     <string name="menu_hello">Hello world!</string>
     <string name="menu_action_settings">设置</string>
     <string name="menu_about">关于</string>
+    
+    <!-- business_menu setting -->
+    <string name="business_menu_personInfromation">个人信息</string>
+    <string name="business_menu_bind">绑定账号</string>
+    <string name="business_menu_opinion">意见反馈</string>
+    <string name="business_menu_cheakNewVersion">检查新版本</string>
+    <string name="business_menu_about">关于我们</string>
+    <string name="business_menu_settings">设置</string>
 
     <!-- main setting -->
     <string name="main_Button01">账号</string>
@@ -77,5 +85,14 @@
     <string name="register_02_okButton">注册</string>
     <string name="register_02_hint">i am hint</string>
     <string name="register_02_cancelButton">获取验证码</string>
-
+    
+    
+    <!-- bind setting -->
+    <string name="bind_login_hint">请输入您的用户名</string>
+    <string name="bind_password_hint">请输入您的密码</string>
+    <string name="bind_modify_hint">下面两项修改已有帐号的密码或邮箱 ，为空表示不修改</string>
+    <string name="bind_email_hint">请输入您的邮箱账号</string>
+    <string name="bind_oldPassword_hint">请输入您原来的密码</string>
+	<string name="bind_submitBotton">修改</string>
+    
 </resources>

@@ -57,9 +57,9 @@ public class Register_02 extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_02);
 
-		editText_login = (EditText) findViewById(R.id.register_login);
+		editText_login = (EditText) findViewById(R.id.bind_login);
 		editText_password = (EditText) findViewById(R.id.register_02_password);
-		editText_password_resure = (EditText) findViewById(R.id.register_password_resure);
+		editText_password_resure = (EditText) findViewById(R.id.bind_oldPassword);
 
 		textView_hint = (TextView) findViewById(R.id.register_02_hint);
 

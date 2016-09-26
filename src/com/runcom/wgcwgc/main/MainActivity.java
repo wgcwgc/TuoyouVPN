@@ -20,8 +20,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -248,7 +246,6 @@ public class MainActivity extends Activity
 					// Toast.makeText(MainActivity.this ,result
 					// ,Toast.LENGTH_LONG).show();
 					Intent intent = new Intent();
-					intent.setClass(MainActivity.this ,Business.class);
 					intent.putExtra("login" ,login);
 					intent.putExtra("pass" ,pass);
 
@@ -266,6 +263,7 @@ public class MainActivity extends Activity
 
 					if(result == 0)
 					{
+						intent.setClass(MainActivity.this ,Business.class);
 						startActivity(intent);
 						finish();
 
@@ -358,25 +356,25 @@ public class MainActivity extends Activity
 		startActivity(intent);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu )
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main ,menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item )
-	{
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if(id == R.id.action_settings)
-		{
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu )
+	// {
+	// // Inflate the menu; this adds items to the action bar if it is present.
+	// getMenuInflater().inflate(R.menu.main ,menu);
+	// return true;
+	// }
+	//
+	// @Override
+	// public boolean onOptionsItemSelected(MenuItem item )
+	// {
+	// // Handle action bar item clicks here. The action bar will
+	// // automatically handle clicks on the Home/Up button, so long
+	// // as you specify a parent activity in AndroidManifest.xml.
+	// int id = item.getItemId();
+	// if(id == R.id.action_settings)
+	// {
+	// return true;
+	// }
+	// return super.onOptionsItemSelected(item);
+	// }
 }

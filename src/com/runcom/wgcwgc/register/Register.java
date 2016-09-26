@@ -45,10 +45,10 @@ public class Register extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
 
-		editText_login = (EditText) findViewById(R.id.register_login);
-		editText_password = (EditText) findViewById(R.id.register_password);
-		editText_password_resure = (EditText) findViewById(R.id.register_password_resure);
-		editText_email = (EditText) findViewById(R.id.register_email);
+		editText_login = (EditText) findViewById(R.id.bind_login);
+		editText_password = (EditText) findViewById(R.id.bind_password);
+		editText_password_resure = (EditText) findViewById(R.id.bind_oldPassword);
+		editText_email = (EditText) findViewById(R.id.bind_email);
 		editText_chkcode = (EditText) findViewById(R.id.register_chkcode);
 		textView_hint = (TextView) findViewById(R.id.register_hint);
 		// button_chkcode = (Button) findViewById(R.id.register_chkcodeButton);
